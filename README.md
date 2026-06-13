@@ -8,6 +8,31 @@ This is not a trading bot. It has no order execution, no private exchange API,
 no wallet/account/balance access, and no financial advice. The public repo is
 designed around synthetic fixtures and validation contracts, not live markets.
 
+## Why not another backtester?
+
+This project is not about finding profitable trades. It is about making
+market-data claims auditable before anyone trusts them.
+
+Instead of searching for signals, it checks whether evidence has source
+lineage, known-at timing, append-only records, outcome/postmortem links, and
+execution-disabled safety boundaries.
+
+## What this catches
+
+- Missing source lineage.
+- Known-at or time-travel contamination.
+- Outcome rows without source references.
+- Postmortems without complete evidence chains.
+- Accidental execution path reintroduction.
+- Unsafe use of raw market data as confidence evidence.
+
+## Codex angle
+
+This started as an exploratory AI-assisted coding project and was refined into
+a small, tested, research-only OSS framework. It demonstrates how Codex can help
+turn loosely scoped ideas into maintainable software with explicit safety
+boundaries.
+
 ## Purpose
 
 The project helps review market-research evidence without creating a path to
