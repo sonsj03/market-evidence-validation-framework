@@ -123,6 +123,23 @@ Next:
 - Close the linked maintenance issue after commit, push, and GitHub CI success.
 - Keep additional validator examples small and synthetic.
 
+## 2026-06-13 - Source Lineage Documentation Pass
+
+Status: completed
+
+Completed:
+
+- Added source lineage match and mismatch examples to `docs/EXAMPLES.md`.
+- Documented that `source_ref` and `source_lineage.source_ref` must match so
+  synthetic evidence records remain traceable.
+- Kept the change documentation-only with no validator behavior or fixture data
+  changes.
+
+Next:
+
+- Close the linked maintenance issue after commit, push, and GitHub CI success.
+- Continue documenting existing validator behavior before adding new checks.
+
 ## 2026-06-16 - Planned Safety And CI Check Pass
 
 Status: planned

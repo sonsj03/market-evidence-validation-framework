@@ -85,6 +85,31 @@ Expected validator finding:
 row 1: confidence_evidence_score must be a number from 0 to 1
 ```
 
+## Source Lineage Matching Rule
+
+`source_ref` names the synthetic source reference for the observation.
+`source_lineage.source_ref` must repeat the same value so a reviewer can follow
+the evidence record back to the source it claims to use. The passing example at
+the top of this page uses `src_SYN_001` in both places.
+
+For example, this mismatch is invalid:
+
+```json
+{
+  "source_ref": "src_SYN_001",
+  "source_lineage": {
+    "source_ref": "src_OTHER",
+    "source_type": "synthetic_fixture"
+  }
+}
+```
+
+Expected validator finding:
+
+```text
+row 1: source_lineage.source_ref must match source_ref
+```
+
 ## Failure Examples
 
 The fixture validator rejects rows that would make research evidence hard to
