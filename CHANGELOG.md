@@ -3,7 +3,7 @@
 All notable changes to this research-only market evidence validation pipeline
 will be documented here.
 
-## Unreleased
+## v0.1.0 - Release Candidate
 
 - Initial public sanitized copy.
 - Added hard-coded research safety guard.
@@ -17,4 +17,7 @@ will be documented here.
 - Expanded synthetic fixture validation for source lineage, known-at ordering,
   confidence evidence score bounds, and schema drift.
 - Added research-only fixture examples for contributors.
+- Clarified known-at timestamp validation examples for contributors.
 - Added release safety-boundary regression checklist for v0.1.0 readiness.
+- Closed initial public maintenance issues for fixture examples, known-at
+  documentation, and release safety-boundary review after CI passed.

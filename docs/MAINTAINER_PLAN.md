@@ -45,9 +45,10 @@ planned / completed / next format.
 - [x] Synthetic fixture validation passes.
 - [x] Guard tests pass.
 - [x] Syntax check passes.
-- [ ] Safety scan reports zero secret, execution, and data artifact hits.
-- [ ] Release safety-boundary regression checklist is reviewed.
-- [ ] Issue drafts are converted into GitHub issues or intentionally deferred.
+- [x] Safety scan reports zero secret, execution, and data artifact hits.
+- [x] Release safety-boundary regression checklist is reviewed.
+- [x] Initial public maintenance issues #1, #2, and #3 are closed after CI.
+- [x] Remaining issue drafts are retained as post-v0.1.0 maintenance backlog.
 - [x] `docs/MAINTENANCE_LOG.md` records the latest planned/completed/next
       maintenance cycle.
 

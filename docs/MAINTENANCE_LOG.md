@@ -84,6 +84,28 @@ Next:
 - Keep release notes aligned with `SAFETY.md` and the research-only project
   scope.
 
+## 2026-06-13 - Initial Public Maintenance Issues Closed
+
+Status: completed
+
+Completed:
+
+- Closed Issue #1 after adding a documentation-only synthetic validation
+  example and confirming GitHub CI passed.
+- Closed Issue #2 after clarifying the known-at ordering rule and confirming
+  GitHub CI passed.
+- Closed Issue #3 after adding the release safety-boundary regression checklist
+  and confirming GitHub CI passed.
+- Kept all three tasks scoped to research-only documentation and validation
+  readiness, with no runtime behavior added.
+
+Next:
+
+- Use `CHANGELOG.md` as the source for the v0.1.0 GitHub Release body after a
+  maintainer approves tag creation.
+- Continue converting or deferring remaining draft issues in small,
+  safety-bounded maintenance passes.
+
 ## 2026-06-16 - Planned Safety And CI Check Pass
 
 Status: planned
