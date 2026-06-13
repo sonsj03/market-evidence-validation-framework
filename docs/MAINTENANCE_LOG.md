@@ -159,6 +159,26 @@ Next:
 - Use the completed documentation passes to prepare the v0.1.1 maintenance
   release checklist.
 
+## 2026-06-13 - v0.1.1 Maintenance Checklist Pass
+
+Status: completed
+
+Completed:
+
+- Prepared the v0.1.1 maintenance release candidate scope in `CHANGELOG.md`.
+- Added a v0.1.1 maintenance release checklist to
+  `docs/MAINTAINER_PLAN.md`.
+- Linked the checklist to completed Issues #4, #5, and #6, GitHub CI, fixture
+  validation, safety guard checks, syntax checks, artifact review, and
+  research-only release note review.
+- Kept this pass documentation-only and did not create a tag or GitHub Release.
+
+Next:
+
+- Close Issue #7 after commit, push, and GitHub CI success.
+- Create `v0.1.1` tag and GitHub Release only after separate maintainer
+  approval.
+
 ## 2026-06-16 - Planned Safety And CI Check Pass
 
 Status: planned

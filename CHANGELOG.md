@@ -3,13 +3,24 @@
 All notable changes to this research-only market evidence validation pipeline
 will be documented here.
 
-## Unreleased
+## v0.1.1 - Maintenance Release Candidate
 
 - Documented confidence evidence score boundary examples for synthetic fixture
   validation.
 - Documented source lineage mismatch examples for synthetic fixture validation.
 - Documented missing and unexpected schema field examples for synthetic fixture
   validation.
+- Prepared v0.1.1 maintenance release checklist for research-only validation
+  documentation updates.
+
+Release notes draft:
+
+- Adds clearer synthetic validation examples for confidence score boundaries,
+  source lineage mismatches, and schema field drift.
+- Keeps the release documentation-only with no runtime execution feature
+  changes.
+- Preserves the research-only safety boundary: no execution capability, no
+  private API or credentials, and no financial advice.
 
 ## v0.1.0 - Release Candidate
 

@@ -70,6 +70,32 @@ Review this checklist before tagging v0.1.0 or any public maintenance release:
 - CI, synthetic fixture validation, syntax checks, and research safety guard
   tests pass before release notes are finalized.
 
+## v0.1.1 Maintenance Release Checklist
+
+Candidate scope:
+
+- Confidence score validation examples.
+- Source lineage validation examples.
+- Schema field validation examples.
+- Existing safety-boundary checklist remains in force.
+- No runtime execution feature changes.
+
+Required checks before tagging:
+
+- [x] GitHub CI passes for Issues #4, #5, and #6 maintenance commits.
+- [x] Synthetic fixture validation passes.
+- [x] Synthetic fixture unit tests pass.
+- [x] Research safety guard tests pass.
+- [x] Python syntax check passes.
+- [x] `git diff --check` passes for release checklist edits.
+- [x] No secret, credential, session, database, parquet, cache, raw data, or
+      result-ledger artifacts are added.
+- [x] No execution, private API, wallet/account/balance/position, or financial
+      advice boundary regression is introduced.
+- [x] Release notes are reviewed for research-only scope and no adoption claims.
+- [ ] Maintainer approves `v0.1.1` tag and GitHub Release creation in a
+      separate step.
+
 ## Issue Drafts
 
 ### 1. Add Known-At Validation Examples
