@@ -1,0 +1,31 @@
+name: Safety boundary
+description: Report a possible violation of the research-only boundary.
+title: "[Safety]: "
+labels: ["safety"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for anything that could make the project look like or behave like a trading bot.
+  - type: textarea
+    id: concern
+    attributes:
+      label: Concern
+      description: Describe the possible safety boundary issue.
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Order execution
+        - Private or signed exchange API
+        - Wallet/account/balance/position access
+        - Live/shadow/scanner/executor/promotion route
+        - Secret or private data artifact
+        - Financial advice wording
+        - Other research-only boundary issue
+    validations:
+      required: true
+

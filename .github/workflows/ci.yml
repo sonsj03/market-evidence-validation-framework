@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Python syntax check
+        run: PYTHONDONTWRITEBYTECODE=1 python3 -m compileall -q .
+
+      - name: Synthetic fixture validation
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_synthetic_fixture.py
+
+      - name: Synthetic fixture unittest
+        run: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest tests.test_synthetic_fixture_validation
+
+      - name: Research safety guard check
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 - <<'PY'
+          from research_safety.guard import ExecutionDisabledError, assert_research_only, require_execution_disabled
+
+          assert assert_research_only() is True
+          for surface in ["executor", "live", "order", "scanner", "promotion"]:
+              try:
+                  require_execution_disabled(surface)
+              except ExecutionDisabledError:
+                  pass
+              else:
+                  raise AssertionError(f"{surface} did not fail closed")
+          print("research safety guard: PASS")
+          PY

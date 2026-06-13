@@ -1,0 +1,3 @@
+{"observation_id":"obs_SYN_001","symbol":"BTCUSDT","observed_at":"2026-01-01T00:00:00Z","known_at":"2026-01-01T00:01:00Z","source_ref":"src_SYN_001","hypothesis":"synthetic_liquidity_context","direct_trading_allowed":false,"order_execution_allowed":false,"private_exchange_api_allowed":false}
+{"observation_id":"obs_SYN_002","symbol":"ETHUSDT","observed_at":"2026-01-01T00:05:00Z","known_at":"2026-01-01T00:06:00Z","source_ref":"src_SYN_002","hypothesis":"synthetic_volatility_context","direct_trading_allowed":false,"order_execution_allowed":false,"private_exchange_api_allowed":false}
+

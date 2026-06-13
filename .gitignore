@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local environments
+.venv/
+venv/
+env/
+.env
+.env.*
+
+# Logs and local state
+*.log
+*.lock
+*.tmp
+*.bak
+
+# Secrets and sessions
+*.db
+*.sqlite
+*.sqlite3
+*.session
+*.pem
+*.key
+
+# Market/data artifacts
+*.parquet
+*.jsonl
+!fixtures/synthetic_market_observations.jsonl
+backtest/results/
+data_logs/
+data_logs*/
+cache/
+raw/
+backtest/data/cache/
+backtest/data/raw/
+
+# Frontend/build artifacts
+node_modules/
+dist/
+build/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+
