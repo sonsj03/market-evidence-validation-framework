@@ -11,6 +11,9 @@ validation pipeline, not a trading bot.
 - Improve documentation around known-at timestamps and immutable evidence
   rows.
 - Keep CI focused on syntax checks and safety guard checks.
+- Follow the 1-2 week maintainer plan in `docs/MAINTAINER_PLAN.md`.
+- Record each maintenance cycle in `docs/MAINTENANCE_LOG.md`.
+- Convert maintainer-plan drafts into GitHub issues after repository creation.
 
 ## Later
 
@@ -20,6 +23,8 @@ validation pipeline, not a trading bot.
   postmortem -> confidence flow.
 - Add contributor guidance for writing new validators without adding runtime
   execution surfaces.
+- Prepare a v0.1.0 release once fixture validation, guard tests, syntax checks,
+  and safety scans are consistently green.
 
 ## Out Of Scope
 
@@ -30,4 +35,3 @@ validation pipeline, not a trading bot.
 - Scanner/executor routing.
 - Promotion gates.
 - Financial advice.
-

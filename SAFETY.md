@@ -3,8 +3,8 @@
 This repository is not a trading bot. It is a research-only market evidence
 validation pipeline.
 
-It does not provide financial advice, investment advice, trading instructions,
-signals, or execution guidance.
+It does not provide financial advice, investment advice, market-action
+instructions, market calls, or execution guidance.
 
 ## Hard Boundaries
 
@@ -52,4 +52,3 @@ records, exchange exports, or trading ledgers.
 Use this repository to study validation structure, source lineage, known-at
 timestamps, outcome/postmortem linkage, and confidence rollup design. Do not
 use it to build or operate an automated trading system.
-

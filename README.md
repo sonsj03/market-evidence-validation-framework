@@ -1,5 +1,8 @@
 # Market Evidence Validation Framework
 
+CI: configured in `.github/workflows/ci.yml`; enable the hosted badge after the
+public GitHub repository path is finalized.
+
 Market Evidence Validation Framework is a research-only market evidence
 validation pipeline for checking whether market observations are traceable,
 timestamped, and reviewable before anyone treats them as evidence.
@@ -10,10 +13,10 @@ designed around synthetic fixtures and validation contracts, not live markets.
 
 ## Why not another backtester?
 
-This project is not about finding profitable trades. It is about making
+This project is not about producing market actions. It is about making
 market-data claims auditable before anyone trusts them.
 
-Instead of searching for signals, it checks whether evidence has source
+Instead of searching for market calls, it checks whether evidence has source
 lineage, known-at timing, append-only records, outcome/postmortem links, and
 execution-disabled safety boundaries.
 
@@ -41,7 +44,7 @@ trade. It focuses on questions like:
 - Did an observation have a source reference?
 - Was the source known at the time claimed?
 - Can an outcome or postmortem be connected without mutating the original row?
-- Does a confidence rollup reflect evidence quality rather than profit claims?
+- Does a confidence rollup reflect evidence quality rather than outcome claims?
 
 The intended use is educational and research-oriented: inspect the validation
 shape, run fixture-only checks, and adapt the contracts for non-private data.
@@ -133,3 +136,15 @@ This public copy was prepared with Codex as a research-safe OSS artifact:
 allowlist export, safety documentation, execution-disabled guard design,
 synthetic fixtures, and validation checks were all shaped to keep the project
 positioned as a non-trading evidence validation framework.
+
+## Maintainer Workflow With Codex
+
+Maintenance is tracked as small, reviewable tasks: fixture expansion, source
+lineage validation, known-at examples, guard/security checks, CI hardening, and
+documentation polish. Codex is used to draft changes, run local validation, and
+check that the research-only safety boundary remains intact before human
+review.
+
+See `docs/MAINTAINER_PLAN.md` for the current 1-2 week maintainer plan and
+issue drafts. See `docs/MAINTENANCE_LOG.md` for the planned / completed / next
+maintenance log.

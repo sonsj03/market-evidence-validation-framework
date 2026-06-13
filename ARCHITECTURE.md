@@ -20,7 +20,8 @@ accounts, background services, or network collectors.
 ## 2. Observation
 
 Observation validators check that a row has the minimum fields needed for
-research review. The row is not an order, signal, or trading instruction.
+research review. The row is not an order, trigger, or market-action
+instruction.
 
 ## 3. Source Lineage
 
@@ -44,7 +45,7 @@ evidence quality, source coverage, and context remain consistent across time.
 
 Confidence rollup is evidence-quality metadata. It should reflect source
 coverage, outcome linkage, postmortem completeness, known-at integrity, and
-blocker reduction. It is not a profit claim.
+blocker reduction. It is not a performance claim.
 
 ## Explicit Non-Architecture
 
@@ -61,4 +62,3 @@ These surfaces are intentionally absent:
 
 The hard-coded safety guard in `research_safety.guard` keeps execution disabled
 even if a downstream user tries to touch a forbidden runtime surface.
-

@@ -15,6 +15,7 @@ scanner-to-executor routing, no live/shadow runtime, and no promotion gate.
 - Confidence rollup quality checks.
 - Documentation that makes the research-only boundary clearer.
 - Tests for `research_safety.guard`.
+- Maintenance tasks listed in `docs/MAINTAINER_PLAN.md`.
 
 ## Not Accepted
 
@@ -23,6 +24,13 @@ scanner-to-executor routing, no live/shadow runtime, and no promotion gate.
 - Wallet, account, balance, or position access.
 - Live, shadow, scanner, executor, or promotion enablement.
 - Trade alerts or financial advice.
+
+## Issue Triage
+
+Maintainers prioritize safety, fixture validation, source-lineage examples,
+known-at validation, CI hardening, and documentation polish. Requests that add
+runtime execution behavior are closed as out of scope.
+Maintenance pass status is recorded in `docs/MAINTENANCE_LOG.md`.
 
 ## Local Checks
 
