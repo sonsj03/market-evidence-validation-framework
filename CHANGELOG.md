@@ -8,6 +8,8 @@ will be documented here.
 - Documented confidence evidence score boundary examples for synthetic fixture
   validation.
 - Documented source lineage mismatch examples for synthetic fixture validation.
+- Documented missing and unexpected schema field examples for synthetic fixture
+  validation.
 
 ## v0.1.0 - Release Candidate
 

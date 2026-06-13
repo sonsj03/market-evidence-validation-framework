@@ -140,6 +140,25 @@ Next:
 - Close the linked maintenance issue after commit, push, and GitHub CI success.
 - Continue documenting existing validator behavior before adding new checks.
 
+## 2026-06-13 - Schema Field Documentation Pass
+
+Status: completed
+
+Completed:
+
+- Added missing-field and unexpected-field schema validation examples to
+  `docs/EXAMPLES.md`.
+- Documented why early schema drift detection keeps synthetic evidence records
+  reviewable.
+- Kept the change documentation-only with no validator behavior or fixture data
+  changes.
+
+Next:
+
+- Close the linked maintenance issue after commit, push, and GitHub CI success.
+- Use the completed documentation passes to prepare the v0.1.1 maintenance
+  release checklist.
+
 ## 2026-06-16 - Planned Safety And CI Check Pass
 
 Status: planned

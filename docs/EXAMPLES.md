@@ -110,6 +110,41 @@ Expected validator finding:
 row 1: source_lineage.source_ref must match source_ref
 ```
 
+## Schema Field Validation
+
+The validator keeps the public fixture schema narrow. Required fields must be
+present, and fields outside the public schema are rejected so schema drift is
+caught before a row is used as research evidence.
+
+Missing required field example:
+
+```json
+{
+  "observation_id": "obs_SYN_FAIL_SCHEMA",
+  "symbol": "BTCUSDT"
+}
+```
+
+Expected validator finding:
+
+```text
+row 1: missing fields: confidence_evidence_score, direct_trading_allowed, hypothesis, known_at, order_execution_allowed, private_exchange_api_allowed, source_lineage, source_ref
+```
+
+Unexpected field example:
+
+```json
+{
+  "runtime_hint": "not allowed"
+}
+```
+
+Expected validator finding:
+
+```text
+row 1: unexpected fields: runtime_hint
+```
+
 ## Failure Examples
 
 The fixture validator rejects rows that would make research evidence hard to
