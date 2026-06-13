@@ -17,3 +17,4 @@ will be documented here.
 - Expanded synthetic fixture validation for source lineage, known-at ordering,
   confidence evidence score bounds, and schema drift.
 - Added research-only fixture examples for contributors.
+- Added release safety-boundary regression checklist for v0.1.0 readiness.

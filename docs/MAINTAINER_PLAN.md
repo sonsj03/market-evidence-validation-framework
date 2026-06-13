@@ -46,9 +46,28 @@ planned / completed / next format.
 - [x] Guard tests pass.
 - [x] Syntax check passes.
 - [ ] Safety scan reports zero secret, execution, and data artifact hits.
+- [ ] Release safety-boundary regression checklist is reviewed.
 - [ ] Issue drafts are converted into GitHub issues or intentionally deferred.
 - [x] `docs/MAINTENANCE_LOG.md` records the latest planned/completed/next
       maintenance cycle.
+
+### Release Safety-Boundary Regression Checklist
+
+Review this checklist before tagging v0.1.0 or any public maintenance release:
+
+- No execution capability is present or newly reachable.
+- No private API, signed request, credential, wallet, account, balance, or
+  position access is present.
+- No financial advice, market-action instruction, or execution guidance is
+  added to documentation.
+- Fixtures remain synthetic and small; only
+  `fixtures/synthetic_market_observations.jsonl` is allowed as JSONL.
+- No sensitive artifacts are present, including `.env`, logs, sessions,
+  databases, parquet files, caches, raw data, or result ledgers.
+- Risky wording is reviewed so execution-related terms appear only in safety
+  boundary, forbidden-surface, or validator contexts.
+- CI, synthetic fixture validation, syntax checks, and research safety guard
+  tests pass before release notes are finalized.
 
 ## Issue Drafts
 

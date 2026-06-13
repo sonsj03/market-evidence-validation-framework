@@ -64,6 +64,26 @@ Next:
 - Keep future fixture changes small, synthetic, and covered by validator tests.
 - Re-run local checks before considering a v0.1.0 release.
 
+## 2026-06-13 - Release Safety Boundary Checklist Pass
+
+Status: completed
+
+Completed:
+
+- Added a v0.1.0 release safety-boundary regression checklist to
+  `docs/MAINTAINER_PLAN.md`.
+- Connected release readiness to no execution capability, no private API or
+  credentials, no financial advice, synthetic fixture-only data, sensitive
+  artifact review, risky wording review, and CI/guard checks.
+- Kept this as a documentation-only maintenance pass with no new runtime
+  behavior.
+
+Next:
+
+- Review the checklist before any public maintenance release.
+- Keep release notes aligned with `SAFETY.md` and the research-only project
+  scope.
+
 ## 2026-06-16 - Planned Safety And CI Check Pass
 
 Status: planned
