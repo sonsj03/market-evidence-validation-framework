@@ -37,6 +37,27 @@ The validator treats this as an evidence-quality record:
   evidence quality only.
 - The three permission flags must remain `false`.
 
+## Known-At Ordering Rule
+
+`observed_at` is the timestamp assigned to the synthetic observation.
+`known_at` is the timestamp when that observation is allowed to become usable
+research evidence. The validator accepts rows where `known_at` is the same as
+or later than `observed_at`.
+
+The passing example above has:
+
+```text
+observed_at = 2026-01-01T00:00:00Z
+known_at    = 2026-01-01T00:01:00Z
+```
+
+The failing example below reverses that relationship. Its `known_at` value is
+earlier than `observed_at`, so the validator reports exactly:
+
+```text
+row 1: known_at must not be earlier than observed_at
+```
+
 ## Failure Examples
 
 The fixture validator rejects rows that would make research evidence hard to
