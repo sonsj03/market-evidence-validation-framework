@@ -172,12 +172,14 @@ Completed:
   validation, safety guard checks, syntax checks, artifact review, and
   research-only release note review.
 - Kept this pass documentation-only and did not create a tag or GitHub Release.
+- Closed Issue #7 after commit, push, and GitHub CI success.
 
 Next:
 
-- Close Issue #7 after commit, push, and GitHub CI success.
 - Create `v0.1.1` tag and GitHub Release only after separate maintainer
   approval.
+- Continue post-release maintenance with small validation and documentation
+  issues.
 
 ## 2026-06-16 - Planned Safety And CI Check Pass
 
