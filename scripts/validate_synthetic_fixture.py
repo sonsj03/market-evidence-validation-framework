@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -18,17 +19,32 @@ REQUIRED_FIELDS = {
     "observed_at",
     "known_at",
     "source_ref",
+    "source_lineage",
     "hypothesis",
+    "confidence_evidence_score",
     "direct_trading_allowed",
     "order_execution_allowed",
     "private_exchange_api_allowed",
 }
+
+ALLOWED_FIELDS = REQUIRED_FIELDS
 
 FORBIDDEN_TRUE_FLAGS = {
     "direct_trading_allowed",
     "order_execution_allowed",
     "private_exchange_api_allowed",
 }
+
+ALLOWED_SOURCE_TYPES = {"synthetic_fixture"}
+
+
+def parse_utc_timestamp(value: Any) -> datetime | None:
+    if not isinstance(value, str) or not value.endswith("Z"):
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
 
 
 def load_jsonl(path: Path) -> list[dict[str, Any]]:
@@ -58,6 +74,9 @@ def validate_rows(rows: list[dict[str, Any]]) -> list[str]:
         missing = sorted(REQUIRED_FIELDS - set(row))
         if missing:
             violations.append(f"row {index}: missing fields: {', '.join(missing)}")
+        unexpected = sorted(set(row) - ALLOWED_FIELDS)
+        if unexpected:
+            violations.append(f"row {index}: unexpected fields: {', '.join(unexpected)}")
 
         observation_id = str(row.get("observation_id") or "")
         if not observation_id:
@@ -65,6 +84,36 @@ def validate_rows(rows: list[dict[str, Any]]) -> list[str]:
         elif observation_id in seen_ids:
             violations.append(f"row {index}: duplicate observation_id {observation_id}")
         seen_ids.add(observation_id)
+
+        source_ref = row.get("source_ref")
+        if not isinstance(source_ref, str) or not source_ref:
+            violations.append(f"row {index}: source_ref must be a non-empty string")
+
+        source_lineage = row.get("source_lineage")
+        if not isinstance(source_lineage, dict):
+            violations.append(f"row {index}: source_lineage must be an object")
+        else:
+            if source_lineage.get("source_ref") != source_ref:
+                violations.append(f"row {index}: source_lineage.source_ref must match source_ref")
+            if source_lineage.get("source_type") not in ALLOWED_SOURCE_TYPES:
+                violations.append(f"row {index}: source_lineage.source_type must be synthetic_fixture")
+
+        observed_at = parse_utc_timestamp(row.get("observed_at"))
+        known_at = parse_utc_timestamp(row.get("known_at"))
+        if observed_at is None:
+            violations.append(f"row {index}: observed_at must be an ISO-8601 UTC timestamp")
+        if known_at is None:
+            violations.append(f"row {index}: known_at must be an ISO-8601 UTC timestamp")
+        if observed_at is not None and known_at is not None and known_at < observed_at:
+            violations.append(f"row {index}: known_at must not be earlier than observed_at")
+
+        confidence = row.get("confidence_evidence_score")
+        if (
+            isinstance(confidence, bool)
+            or not isinstance(confidence, (int, float))
+            or not 0 <= confidence <= 1
+        ):
+            violations.append(f"row {index}: confidence_evidence_score must be a number from 0 to 1")
 
         for field in FORBIDDEN_TRUE_FLAGS:
             if row.get(field) is not False:
@@ -101,4 +150,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

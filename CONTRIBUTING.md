@@ -38,6 +38,7 @@ Maintenance pass status is recorded in `docs/MAINTENANCE_LOG.md`.
 PYTHONDONTWRITEBYTECODE=1 python3 -m compileall -q .
 PYTHONDONTWRITEBYTECODE=1 python3 scripts/validate_synthetic_fixture.py
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest tests.test_synthetic_fixture_validation
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest tests.test_research_safety_guard
 PYTHONDONTWRITEBYTECODE=1 python3 - <<'PY'
 from research_safety.guard import ExecutionDisabledError, assert_research_only, require_execution_disabled
 
@@ -52,3 +53,8 @@ for surface in ["executor", "live", "order", "scanner", "promotion"]:
 print("research safety guard: PASS")
 PY
 ```
+
+Use the explicit commands above as the supported public check set. Full
+`unittest discover` currently reaches legacy contract tests that reference
+modules intentionally absent from the sanitized public copy; keep CI aligned to
+the supported checks until those contracts are reworked.

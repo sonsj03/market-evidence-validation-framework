@@ -14,3 +14,6 @@ will be documented here.
   maintenance.
 - Added maintenance log structure for planned/completed/next public maintenance
   evidence.
+- Expanded synthetic fixture validation for source lineage, known-at ordering,
+  confidence evidence score bounds, and schema drift.
+- Added research-only fixture examples for contributors.

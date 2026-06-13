@@ -37,17 +37,17 @@ planned / completed / next format.
 
 ## v0.1.0 Release Checklist
 
-- [ ] README describes purpose, fixture-only quickstart, and safety boundaries.
-- [ ] SAFETY states no order execution, no private exchange API, and no
+- [x] README describes purpose, fixture-only quickstart, and safety boundaries.
+- [x] SAFETY states no order execution, no private exchange API, and no
       financial advice.
-- [ ] ARCHITECTURE shows fixture -> observation -> source lineage ->
+- [x] ARCHITECTURE shows fixture -> observation -> source lineage ->
       outcome/postmortem -> confidence rollup.
-- [ ] Synthetic fixture validation passes.
-- [ ] Guard tests pass.
-- [ ] Syntax check passes.
+- [x] Synthetic fixture validation passes.
+- [x] Guard tests pass.
+- [x] Syntax check passes.
 - [ ] Safety scan reports zero secret, execution, and data artifact hits.
 - [ ] Issue drafts are converted into GitHub issues or intentionally deferred.
-- [ ] `docs/MAINTENANCE_LOG.md` records the latest planned/completed/next
+- [x] `docs/MAINTENANCE_LOG.md` records the latest planned/completed/next
       maintenance cycle.
 
 ## Issue Drafts
@@ -55,6 +55,7 @@ planned / completed / next format.
 ### 1. Add Known-At Validation Examples
 
 - Type: documentation
+- Suggested label: good first issue
 - Priority: high
 - Scope: Add synthetic valid/invalid known-at examples and explain why ordering
   matters for research evidence.
@@ -66,6 +67,7 @@ planned / completed / next format.
 ### 2. Expand Source-Lineage Fixture Coverage
 
 - Type: fixture
+- Suggested label: good first issue
 - Priority: high
 - Scope: Add synthetic source-lineage examples for present, missing, and
   mismatched source references.
@@ -88,12 +90,13 @@ planned / completed / next format.
 ### 4. Document Confidence Rollup Semantics
 
 - Type: documentation
+- Suggested label: good first issue
 - Priority: medium
 - Scope: Explain confidence as evidence-quality metadata based on source
   coverage, known-at integrity, outcome linkage, and blocker reduction.
 - Acceptance criteria:
   - Avoids performance or outcome-maximizing language.
-  - Includes one synthetic example.
+  - Includes one synthetic evidence-quality example.
   - Links to SAFETY and ARCHITECTURE.
 
 ### 5. Add Outcome/Postmortem Fixture Pair

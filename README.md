@@ -148,3 +148,6 @@ review.
 See `docs/MAINTAINER_PLAN.md` for the current 1-2 week maintainer plan and
 issue drafts. See `docs/MAINTENANCE_LOG.md` for the planned / completed / next
 maintenance log.
+
+For a line-by-line explanation of the public synthetic fixture, see
+`docs/EXAMPLES.md`.

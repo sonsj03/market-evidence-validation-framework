@@ -43,6 +43,27 @@ Next:
 - Update this log with completed triage notes.
 - Link converted issues back to the relevant maintainer-plan draft.
 
+## 2026-06-13 - Synthetic Fixture Validation Coverage Pass
+
+Status: completed
+
+Completed:
+
+- Expanded the synthetic fixture contract with explicit source lineage and
+  evidence-quality confidence fields.
+- Added dependency-free tests for missing source lineage, invalid known-at
+  ordering, malformed confidence scores, unexpected schema fields, and lineage
+  mismatches.
+- Added `docs/EXAMPLES.md` to explain how one synthetic JSONL row is interpreted
+  without adding execution behavior or financial recommendations.
+- Marked three contributor-friendly issue drafts as suggested good first
+  issues.
+
+Next:
+
+- Keep future fixture changes small, synthetic, and covered by validator tests.
+- Re-run local checks before considering a v0.1.0 release.
+
 ## 2026-06-16 - Planned Safety And CI Check Pass
 
 Status: planned
