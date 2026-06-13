@@ -48,6 +48,36 @@ audit:
 - Extra schema fields such as runtime hints.
 - Any fixture field that tries to enable execution or private exchange access.
 
+Example failing row:
+
+```json
+{
+  "observation_id": "obs_SYN_FAIL_KNOWN_AT",
+  "symbol": "BTCUSDT",
+  "observed_at": "2026-01-01T00:10:00Z",
+  "known_at": "2026-01-01T00:09:00Z",
+  "source_ref": "src_SYN_FAIL_001",
+  "source_lineage": {
+    "source_ref": "src_SYN_FAIL_001",
+    "source_type": "synthetic_fixture"
+  },
+  "hypothesis": "synthetic_timing_context",
+  "confidence_evidence_score": 0.4,
+  "direct_trading_allowed": false,
+  "order_execution_allowed": false,
+  "private_exchange_api_allowed": false
+}
+```
+
+Expected validator finding:
+
+```text
+row 1: known_at must not be earlier than observed_at
+```
+
+This row is useful for documentation because it shows a timing violation
+without adding private data, live data access, or any execution path.
+
 Run the examples through the dependency-free checks:
 
 ```bash
