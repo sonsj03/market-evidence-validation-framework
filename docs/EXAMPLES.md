@@ -58,6 +58,33 @@ earlier than `observed_at`, so the validator reports exactly:
 row 1: known_at must not be earlier than observed_at
 ```
 
+## Confidence Evidence Score Boundaries
+
+`confidence_evidence_score` is evidence-quality metadata for the synthetic
+fixture. It is not a forecast, recommendation, or permission field. The
+validator accepts numeric values from `0` through `1`, including the boundary
+values:
+
+```text
+confidence_evidence_score = 0
+confidence_evidence_score = 1
+```
+
+Values below `0`, above `1`, booleans, or non-numeric values fail validation.
+For example, this field value is invalid:
+
+```json
+{
+  "confidence_evidence_score": 1.2
+}
+```
+
+Expected validator finding:
+
+```text
+row 1: confidence_evidence_score must be a number from 0 to 1
+```
+
 ## Failure Examples
 
 The fixture validator rejects rows that would make research evidence hard to

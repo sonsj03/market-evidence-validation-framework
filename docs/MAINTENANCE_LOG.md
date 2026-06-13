@@ -106,6 +106,23 @@ Next:
 - Continue converting or deferring remaining draft issues in small,
   safety-bounded maintenance passes.
 
+## 2026-06-13 - Confidence Score Documentation Pass
+
+Status: completed
+
+Completed:
+
+- Added confidence evidence score boundary examples to `docs/EXAMPLES.md`.
+- Clarified that confidence evidence score is fixture evidence-quality metadata
+  only, not a forecast, recommendation, or permission field.
+- Kept the change documentation-only with no validator behavior or fixture data
+  changes.
+
+Next:
+
+- Close the linked maintenance issue after commit, push, and GitHub CI success.
+- Keep additional validator examples small and synthetic.
+
 ## 2026-06-16 - Planned Safety And CI Check Pass
 
 Status: planned

@@ -3,6 +3,11 @@
 All notable changes to this research-only market evidence validation pipeline
 will be documented here.
 
+## Unreleased
+
+- Documented confidence evidence score boundary examples for synthetic fixture
+  validation.
+
 ## v0.1.0 - Release Candidate
 
 - Initial public sanitized copy.
