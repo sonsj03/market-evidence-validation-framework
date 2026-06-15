@@ -68,6 +68,17 @@ class SyntheticFixtureValidationTest(TestCase):
             violations,
         )
 
+    def test_validator_rejects_invalid_evidence_domain(self) -> None:
+        row = self._valid_row()
+        row["source_lineage"]["evidence_domain"] = "mixed_unknown"
+
+        violations = validate_rows([row])
+
+        self.assertIn(
+            "row 1: source_lineage.evidence_domain must be one of: offchain_exchange, onchain_block, onchain_mempool",
+            violations,
+        )
+
     def test_validator_rejects_venue_mismatch(self) -> None:
         row = self._valid_row()
         row["source_lineage"]["venue"] = "other_venue"
@@ -112,6 +123,7 @@ class SyntheticFixtureValidationTest(TestCase):
             "source_lineage": {
                 "source_ref": "src_TEST_001",
                 "source_type": "synthetic_fixture",
+                "evidence_domain": "offchain_exchange",
                 "venue": "synthetic_exchange",
                 "market_type": "synthetic_spot",
                 "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT",

@@ -39,9 +39,15 @@ FORBIDDEN_TRUE_FLAGS = {
 }
 
 ALLOWED_SOURCE_TYPES = {"synthetic_fixture"}
+ALLOWED_EVIDENCE_DOMAINS = {
+    "offchain_exchange",
+    "onchain_block",
+    "onchain_mempool",
+}
 REQUIRED_SOURCE_LINEAGE_FIELDS = {
     "source_ref",
     "source_type",
+    "evidence_domain",
     "venue",
     "market_type",
     "source_identity_key",
@@ -116,6 +122,11 @@ def validate_rows(rows: list[dict[str, Any]]) -> list[str]:
                 violations.append(f"row {index}: source_lineage.source_ref must match source_ref")
             if source_lineage.get("source_type") not in ALLOWED_SOURCE_TYPES:
                 violations.append(f"row {index}: source_lineage.source_type must be synthetic_fixture")
+            if source_lineage.get("evidence_domain") not in ALLOWED_EVIDENCE_DOMAINS:
+                violations.append(
+                    f"row {index}: source_lineage.evidence_domain must be one of: "
+                    f"{', '.join(sorted(ALLOWED_EVIDENCE_DOMAINS))}"
+                )
             if source_lineage.get("venue") != row.get("venue"):
                 violations.append(f"row {index}: source_lineage.venue must match venue")
             if source_lineage.get("market_type") != row.get("market_type"):

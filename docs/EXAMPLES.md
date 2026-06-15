@@ -21,6 +21,7 @@ Example row, formatted for readability:
   "source_lineage": {
     "source_ref": "src_SYN_001",
     "source_type": "synthetic_fixture",
+    "evidence_domain": "offchain_exchange",
     "venue": "synthetic_exchange",
     "market_type": "synthetic_spot",
     "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT",
@@ -43,6 +44,8 @@ The validator treats this as an evidence-quality record:
 - `observed_at` is when the synthetic observation is said to occur.
 - `known_at` is when the observation is allowed to become usable evidence.
 - `source_ref` and `source_lineage.source_ref` must match.
+- `source_lineage.evidence_domain` distinguishes off-chain exchange evidence
+  from on-chain block and mempool evidence.
 - `source_lineage.source_identity_key` prevents the row from implying a single
   universal price source across venues or market types.
 - `source_lineage.source_observed_at` and `source_lineage.source_known_at`
@@ -137,6 +140,7 @@ For example, this mismatch is invalid:
   "source_lineage": {
     "source_ref": "src_OTHER",
     "source_type": "synthetic_fixture",
+    "evidence_domain": "offchain_exchange",
     "venue": "synthetic_exchange",
     "market_type": "synthetic_spot",
     "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT",
@@ -152,6 +156,37 @@ Expected validator finding:
 row 1: source_lineage.source_ref must match source_ref
 ```
 
+## Evidence Domain Rule
+
+`source_lineage.evidence_domain` must identify the evidence family before any
+validator can compare or roll up rows. The accepted public domains are:
+
+```text
+offchain_exchange
+onchain_block
+onchain_mempool
+```
+
+The synthetic fixture currently uses `offchain_exchange` because it represents
+a local, fixture-only exchange-market observation. A row must not silently mix
+that with block-confirmed or mempool-only evidence.
+
+For example, this value is invalid:
+
+```json
+{
+  "source_lineage": {
+    "evidence_domain": "mixed_unknown"
+  }
+}
+```
+
+Expected validator finding:
+
+```text
+row 1: source_lineage.evidence_domain must be one of: offchain_exchange, onchain_block, onchain_mempool
+```
+
 Source identity is also required. This prevents a coin-domain row from treating
 all exchange prices as one universal truth source. For example, this lineage is
 invalid because it omits `source_identity_key`:
@@ -161,6 +196,7 @@ invalid because it omits `source_identity_key`:
   "source_lineage": {
     "source_ref": "src_SYN_001",
     "source_type": "synthetic_fixture",
+    "evidence_domain": "offchain_exchange",
     "venue": "synthetic_exchange",
     "market_type": "synthetic_spot",
     "source_observed_at": "2026-01-01T00:00:00Z",
@@ -236,6 +272,7 @@ Example failing row:
   "source_lineage": {
     "source_ref": "src_SYN_FAIL_001",
     "source_type": "synthetic_fixture",
+    "evidence_domain": "offchain_exchange",
     "venue": "synthetic_exchange",
     "market_type": "synthetic_spot",
     "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT",
