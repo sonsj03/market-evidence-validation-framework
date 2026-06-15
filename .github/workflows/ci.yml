@@ -25,6 +25,9 @@ jobs:
       - name: Synthetic fixture unittest
         run: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest tests.test_synthetic_fixture_validation
 
+      - name: Public test function suite
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/run_public_tests.py
+
       - name: Research safety guard check
         run: |
           PYTHONDONTWRITEBYTECODE=1 python3 - <<'PY'
@@ -40,3 +43,6 @@ jobs:
                   raise AssertionError(f"{surface} did not fail closed")
           print("research safety guard: PASS")
           PY
+
+      - name: Public safety artifact scan
+        run: PYTHONDONTWRITEBYTECODE=1 python3 scripts/safety_scan.py
