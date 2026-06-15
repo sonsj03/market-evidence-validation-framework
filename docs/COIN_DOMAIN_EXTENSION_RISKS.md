@@ -59,11 +59,37 @@ Before any coin-domain fixture or validator is added:
 - Require both `observed_at` and `known_at` on every event-like row.
 - Represent exchange, market type, symbol normalization, quote currency, and
   venue timestamp explicitly.
+- Require venue raw symbols and normalized symbols to remain separate, with
+  explicit base asset, quote asset, quote currency, and normalization version.
+- Require a continuous 24/7 session model and reject regular-session
+  open/close assumptions in coin-domain rows.
 - Add finality fields for chain-derived evidence.
+- Require reorg-invalidated on-chain block rows to be explicitly marked and
+  blocked from being treated as finalized evidence.
+- Reorg-invalidated block rows must only be used as invalidation records, never
+  as stable joined evidence for later cross-source rows.
 - Distinguish mempool observations from confirmed block observations.
+- Keep mempool status separate from block finality; pending or dropped mempool
+  rows must not be interpreted as confirmed block evidence.
 - Keep all adapters fixture-only, local-file-only, and read-only.
+- Adapter contracts must explicitly disable network access, credentials, and
+  private APIs.
+- Adapter contracts must carry schema/provider contract versions and fail
+  closed on unknown provider changes.
 - Add tests that reject cross-source joins without source-specific `known_at`
   boundaries.
+- Cross-venue or arbitrage-style rows must not be accepted unless every joined
+  source carries its own `source_known_at`, and the row-level `known_at` is not
+  earlier than the latest joined source.
+- Funding rows must distinguish estimated pre-settlement values from settled
+  post-settlement values, and settled rows must prove when settlement became
+  known.
+- Newly listed assets require listing-phase metadata so initial thin-market
+  data is not treated as seasoned market evidence.
+- Domain expansion should remain blocked until the public fixture covers the
+  minimum required evidence domains and passes the readiness gate.
+- Every row must carry a research-only policy marker that rejects financial
+  advice, execution guidance, and jurisdiction-specific operating instructions.
 - Preserve the existing no-execution boundary: no order execution, private API,
   signed request, wallet, account, balance, position, live, shadow, scanner,
   executor, or promotion surface.
