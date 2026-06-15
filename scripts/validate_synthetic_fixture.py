@@ -45,6 +45,8 @@ REQUIRED_SOURCE_LINEAGE_FIELDS = {
     "venue",
     "market_type",
     "source_identity_key",
+    "source_observed_at",
+    "source_known_at",
 }
 
 
@@ -100,6 +102,8 @@ def validate_rows(rows: list[dict[str, Any]]) -> list[str]:
             violations.append(f"row {index}: source_ref must be a non-empty string")
 
         source_lineage = row.get("source_lineage")
+        source_observed_at = None
+        source_known_at = None
         if not isinstance(source_lineage, dict):
             violations.append(f"row {index}: source_lineage must be an object")
         else:
@@ -119,6 +123,24 @@ def validate_rows(rows: list[dict[str, Any]]) -> list[str]:
             identity_key = source_lineage.get("source_identity_key")
             if not isinstance(identity_key, str) or not identity_key:
                 violations.append(f"row {index}: source_lineage.source_identity_key must be non-empty")
+            source_observed_at = parse_utc_timestamp(source_lineage.get("source_observed_at"))
+            source_known_at = parse_utc_timestamp(source_lineage.get("source_known_at"))
+            if source_observed_at is None:
+                violations.append(
+                    f"row {index}: source_lineage.source_observed_at must be an ISO-8601 UTC timestamp"
+                )
+            if source_known_at is None:
+                violations.append(
+                    f"row {index}: source_lineage.source_known_at must be an ISO-8601 UTC timestamp"
+                )
+            if (
+                source_observed_at is not None
+                and source_known_at is not None
+                and source_known_at < source_observed_at
+            ):
+                violations.append(
+                    f"row {index}: source_lineage.source_known_at must not be earlier than source_observed_at"
+                )
 
         observed_at = parse_utc_timestamp(row.get("observed_at"))
         known_at = parse_utc_timestamp(row.get("known_at"))
@@ -128,6 +150,8 @@ def validate_rows(rows: list[dict[str, Any]]) -> list[str]:
             violations.append(f"row {index}: known_at must be an ISO-8601 UTC timestamp")
         if observed_at is not None and known_at is not None and known_at < observed_at:
             violations.append(f"row {index}: known_at must not be earlier than observed_at")
+        if known_at is not None and source_known_at is not None and known_at < source_known_at:
+            violations.append(f"row {index}: known_at must not be earlier than source_lineage.source_known_at")
 
         confidence = row.get("confidence_evidence_score")
         if (

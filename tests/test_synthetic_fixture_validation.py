@@ -76,6 +76,29 @@ class SyntheticFixtureValidationTest(TestCase):
 
         self.assertIn("row 1: source_lineage.venue must match venue", violations)
 
+    def test_validator_rejects_source_known_at_before_source_observed_at(self) -> None:
+        row = self._valid_row()
+        row["source_lineage"]["source_known_at"] = "2025-12-31T23:59:00Z"
+
+        violations = validate_rows([row])
+
+        self.assertIn(
+            "row 1: source_lineage.source_known_at must not be earlier than source_observed_at",
+            violations,
+        )
+
+    def test_validator_rejects_row_known_at_before_source_known_at(self) -> None:
+        row = self._valid_row()
+        row["known_at"] = "2026-01-01T00:00:30Z"
+        row["source_lineage"]["source_known_at"] = "2026-01-01T00:01:00Z"
+
+        violations = validate_rows([row])
+
+        self.assertIn(
+            "row 1: known_at must not be earlier than source_lineage.source_known_at",
+            violations,
+        )
+
     def _valid_row(self) -> dict[str, object]:
         return {
             "observation_id": "obs_TEST_001",
@@ -92,6 +115,8 @@ class SyntheticFixtureValidationTest(TestCase):
                 "venue": "synthetic_exchange",
                 "market_type": "synthetic_spot",
                 "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT",
+                "source_observed_at": "2026-01-01T00:00:00Z",
+                "source_known_at": "2026-01-01T00:01:00Z",
             },
             "hypothesis": "synthetic_context",
             "confidence_evidence_score": 0.5,

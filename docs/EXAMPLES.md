@@ -23,7 +23,9 @@ Example row, formatted for readability:
     "source_type": "synthetic_fixture",
     "venue": "synthetic_exchange",
     "market_type": "synthetic_spot",
-    "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT"
+    "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT",
+    "source_observed_at": "2026-01-01T00:00:00Z",
+    "source_known_at": "2026-01-01T00:01:00Z"
   },
   "hypothesis": "synthetic_liquidity_context",
   "confidence_evidence_score": 0.72,
@@ -43,6 +45,8 @@ The validator treats this as an evidence-quality record:
 - `source_ref` and `source_lineage.source_ref` must match.
 - `source_lineage.source_identity_key` prevents the row from implying a single
   universal price source across venues or market types.
+- `source_lineage.source_observed_at` and `source_lineage.source_known_at`
+  preserve the timing of the source itself, before the row is used as evidence.
 - `confidence_evidence_score` is bounded from `0` to `1` and describes fixture
   evidence quality only.
 - The three permission flags must remain `false`.
@@ -53,6 +57,17 @@ The validator treats this as an evidence-quality record:
 `known_at` is the timestamp when that observation is allowed to become usable
 research evidence. The validator accepts rows where `known_at` is the same as
 or later than `observed_at`.
+
+The source lineage carries the same separation for the source itself:
+
+```text
+source_lineage.source_observed_at = 2026-01-01T00:00:00Z
+source_lineage.source_known_at    = 2026-01-01T00:01:00Z
+```
+
+The row-level `known_at` must not be earlier than
+`source_lineage.source_known_at`; otherwise the row would claim source evidence
+before the source became available.
 
 The passing example above has:
 
@@ -66,6 +81,18 @@ earlier than `observed_at`, so the validator reports exactly:
 
 ```text
 row 1: known_at must not be earlier than observed_at
+```
+
+If the source timing itself is reversed, the validator reports:
+
+```text
+row 1: source_lineage.source_known_at must not be earlier than source_observed_at
+```
+
+If the row claims evidence before the source is known, the validator reports:
+
+```text
+row 1: known_at must not be earlier than source_lineage.source_known_at
 ```
 
 ## Confidence Evidence Score Boundaries
@@ -112,7 +139,9 @@ For example, this mismatch is invalid:
     "source_type": "synthetic_fixture",
     "venue": "synthetic_exchange",
     "market_type": "synthetic_spot",
-    "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT"
+    "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT",
+    "source_observed_at": "2026-01-01T00:00:00Z",
+    "source_known_at": "2026-01-01T00:01:00Z"
   }
 }
 ```
@@ -133,7 +162,9 @@ invalid because it omits `source_identity_key`:
     "source_ref": "src_SYN_001",
     "source_type": "synthetic_fixture",
     "venue": "synthetic_exchange",
-    "market_type": "synthetic_spot"
+    "market_type": "synthetic_spot",
+    "source_observed_at": "2026-01-01T00:00:00Z",
+    "source_known_at": "2026-01-01T00:01:00Z"
   }
 }
 ```
@@ -207,7 +238,9 @@ Example failing row:
     "source_type": "synthetic_fixture",
     "venue": "synthetic_exchange",
     "market_type": "synthetic_spot",
-    "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT"
+    "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT",
+    "source_observed_at": "2026-01-01T00:10:00Z",
+    "source_known_at": "2026-01-01T00:10:30Z"
   },
   "hypothesis": "synthetic_timing_context",
   "confidence_evidence_score": 0.4,
