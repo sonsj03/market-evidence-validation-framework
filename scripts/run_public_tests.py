@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import importlib.util
 import inspect
+import os
 import sys
 import tempfile
 import traceback
@@ -13,8 +14,8 @@ from types import ModuleType
 from typing import Any
 
 
-TEST_DIR = Path("tests")
 ROOT = Path(__file__).resolve().parents[1]
+TEST_DIR = ROOT / "tests"
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
@@ -41,6 +42,7 @@ def call_test(fn: Any) -> None:
 
 
 def main() -> int:
+    os.chdir(ROOT)
     failures: list[str] = []
     total = 0
     unittest_suite = unittest.TestSuite()
@@ -66,6 +68,8 @@ def main() -> int:
         failures.append(f"{test} errored\n{error}")
     for test, failure in unittest_result.failures:
         failures.append(f"{test} failed\n{failure}")
+    if total == 0:
+        failures.append(f"{TEST_DIR}: no tests collected")
     if failures:
         print(f"public tests: FAIL ({len(failures)} failed / {total} collected)")
         for failure in failures:

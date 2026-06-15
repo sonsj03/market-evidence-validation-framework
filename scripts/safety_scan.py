@@ -24,6 +24,7 @@ FORBIDDEN_SUFFIXES = {
     ".log",
 }
 ALLOWED_JSONL = {Path("fixtures/synthetic_market_observations.jsonl")}
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def scan(root: Path) -> list[str]:
@@ -46,9 +47,10 @@ def scan(root: Path) -> list[str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Scan for public safety-boundary artifact drift.")
-    parser.add_argument("root", nargs="?", default=".")
+    parser.add_argument("root", nargs="?", default=None)
     args = parser.parse_args()
-    violations = scan(Path(args.root).resolve())
+    root = Path(args.root).resolve() if args.root else ROOT
+    violations = scan(root)
     if violations:
         for violation in violations:
             print(violation)

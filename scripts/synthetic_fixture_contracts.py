@@ -490,9 +490,16 @@ def validate_onchain_mempool_lineage(source_lineage: dict[str, Any], row_index: 
                 "row "
                 f"{row_index}: source_lineage.confirmed_in_block must be true when mempool_state is included"
             )
-        if not isinstance(source_lineage.get("included_block_number"), int):
+        included_block_number = source_lineage.get("included_block_number")
+        if (
+            isinstance(included_block_number, bool)
+            or not isinstance(included_block_number, int)
+            or included_block_number < 0
+        ):
             violations.append(
-                f"row {row_index}: source_lineage.included_block_number must be an integer when mempool_state is included"
+                "row "
+                f"{row_index}: source_lineage.included_block_number must be a non-negative integer "
+                "when mempool_state is included"
             )
         if not isinstance(source_lineage.get("included_block_hash"), str) or not source_lineage.get("included_block_hash"):
             violations.append(

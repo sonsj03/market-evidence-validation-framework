@@ -320,11 +320,25 @@ class SyntheticFixtureValidationTest(TestCase):
         violations = validate_rows([row])
 
         self.assertIn(
-            "row 1: source_lineage.included_block_number must be an integer when mempool_state is included",
+            "row 1: source_lineage.included_block_number must be a non-negative integer when mempool_state is included",
             violations,
         )
         self.assertIn(
             "row 1: source_lineage.included_block_hash must be non-empty when mempool_state is included",
+            violations,
+        )
+
+    def test_validator_rejects_boolean_included_mempool_block_number(self) -> None:
+        row = self._valid_onchain_mempool_row()
+        row["source_lineage"]["mempool_state"] = "included"
+        row["source_lineage"]["confirmed_in_block"] = True
+        row["source_lineage"]["included_block_number"] = True
+        row["source_lineage"]["included_block_hash"] = "0xincludedblock"
+
+        violations = validate_rows([row])
+
+        self.assertIn(
+            "row 1: source_lineage.included_block_number must be a non-negative integer when mempool_state is included",
             violations,
         )
 

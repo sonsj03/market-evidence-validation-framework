@@ -34,12 +34,13 @@ def main() -> int:
     parser.add_argument(
         "fixture",
         nargs="?",
-        default="fixtures/synthetic_market_observations.jsonl",
+        default=None,
         help="Path to the synthetic JSONL fixture",
     )
     args = parser.parse_args()
 
-    report = validate_fixture(Path(args.fixture))
+    fixture = Path(args.fixture) if args.fixture else ROOT / "fixtures" / "synthetic_market_observations.jsonl"
+    report = validate_fixture(fixture)
     print(json.dumps(report, indent=2, sort_keys=True))
     return 0 if report["status"] == "PASS" else 1
 
