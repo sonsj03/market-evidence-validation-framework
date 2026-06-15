@@ -17,6 +17,8 @@ Market Evidence Validation Framework.
 - `SIGNAL_PROVENANCE_CONTRACT.md` - evidence provenance expectations.
 - `EVENT_SCHEMA_CATALOG.md` - event schema catalog.
 - `EXPERIMENT_MANIFEST.md` - fixture-only experiment manifest.
+- `COIN_DOMAIN_EXTENSION_RISKS.md` - risks and preconditions for any future
+  coin-domain fixture or validator expansion.
 
 ## Examples And Maintenance
 

@@ -47,6 +47,15 @@ Confidence rollup is evidence-quality metadata. It should reflect source
 coverage, outcome linkage, postmortem completeness, known-at integrity, and
 blocker reduction. It is not a performance claim.
 
+## Future Coin-Domain Extension
+
+Coin-domain fixtures and validators are not part of the current public
+architecture. They require explicit contracts for exchange-specific source
+identity, on-chain versus off-chain lineage, mempool versus confirmed block
+state, reorg/finality handling, funding settlement timing, listing-phase
+metadata, and per-source `known_at` boundaries. See
+`docs/COIN_DOMAIN_EXTENSION_RISKS.md` before adding any coin-specific example.
+
 ## Explicit Non-Architecture
 
 These surfaces are intentionally absent:

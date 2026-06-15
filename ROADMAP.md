@@ -19,6 +19,9 @@ validation pipeline, not a trading bot.
 
 - Add more validator examples for non-private historical datasets supplied by
   users.
+- Define coin-domain extension contracts before adding exchange, on-chain,
+  mempool, funding, listing, or cross-venue fixtures. See
+  `docs/COIN_DOMAIN_EXTENSION_RISKS.md`.
 - Add schema diagrams for the fixture -> observation -> lineage -> outcome ->
   postmortem -> confidence flow.
 - Add contributor guidance for writing new validators without adding runtime
