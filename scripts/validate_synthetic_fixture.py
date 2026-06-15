@@ -16,6 +16,9 @@ from typing import Any
 REQUIRED_FIELDS = {
     "observation_id",
     "symbol",
+    "venue",
+    "market_type",
+    "quote_currency",
     "observed_at",
     "known_at",
     "source_ref",
@@ -36,6 +39,13 @@ FORBIDDEN_TRUE_FLAGS = {
 }
 
 ALLOWED_SOURCE_TYPES = {"synthetic_fixture"}
+REQUIRED_SOURCE_LINEAGE_FIELDS = {
+    "source_ref",
+    "source_type",
+    "venue",
+    "market_type",
+    "source_identity_key",
+}
 
 
 def parse_utc_timestamp(value: Any) -> datetime | None:
@@ -93,10 +103,22 @@ def validate_rows(rows: list[dict[str, Any]]) -> list[str]:
         if not isinstance(source_lineage, dict):
             violations.append(f"row {index}: source_lineage must be an object")
         else:
+            missing_lineage = sorted(REQUIRED_SOURCE_LINEAGE_FIELDS - set(source_lineage))
+            if missing_lineage:
+                violations.append(
+                    f"row {index}: source_lineage missing fields: {', '.join(missing_lineage)}"
+                )
             if source_lineage.get("source_ref") != source_ref:
                 violations.append(f"row {index}: source_lineage.source_ref must match source_ref")
             if source_lineage.get("source_type") not in ALLOWED_SOURCE_TYPES:
                 violations.append(f"row {index}: source_lineage.source_type must be synthetic_fixture")
+            if source_lineage.get("venue") != row.get("venue"):
+                violations.append(f"row {index}: source_lineage.venue must match venue")
+            if source_lineage.get("market_type") != row.get("market_type"):
+                violations.append(f"row {index}: source_lineage.market_type must match market_type")
+            identity_key = source_lineage.get("source_identity_key")
+            if not isinstance(identity_key, str) or not identity_key:
+                violations.append(f"row {index}: source_lineage.source_identity_key must be non-empty")
 
         observed_at = parse_utc_timestamp(row.get("observed_at"))
         known_at = parse_utc_timestamp(row.get("known_at"))

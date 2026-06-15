@@ -57,16 +57,41 @@ class SyntheticFixtureValidationTest(TestCase):
 
         self.assertIn("row 1: source_lineage.source_ref must match source_ref", violations)
 
+    def test_validator_rejects_missing_source_identity(self) -> None:
+        row = self._valid_row()
+        del row["source_lineage"]["source_identity_key"]
+
+        violations = validate_rows([row])
+
+        self.assertIn(
+            "row 1: source_lineage missing fields: source_identity_key",
+            violations,
+        )
+
+    def test_validator_rejects_venue_mismatch(self) -> None:
+        row = self._valid_row()
+        row["source_lineage"]["venue"] = "other_venue"
+
+        violations = validate_rows([row])
+
+        self.assertIn("row 1: source_lineage.venue must match venue", violations)
+
     def _valid_row(self) -> dict[str, object]:
         return {
             "observation_id": "obs_TEST_001",
             "symbol": "BTCUSDT",
+            "venue": "synthetic_exchange",
+            "market_type": "synthetic_spot",
+            "quote_currency": "USDT",
             "observed_at": "2026-01-01T00:00:00Z",
             "known_at": "2026-01-01T00:01:00Z",
             "source_ref": "src_TEST_001",
             "source_lineage": {
                 "source_ref": "src_TEST_001",
                 "source_type": "synthetic_fixture",
+                "venue": "synthetic_exchange",
+                "market_type": "synthetic_spot",
+                "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT",
             },
             "hypothesis": "synthetic_context",
             "confidence_evidence_score": 0.5,

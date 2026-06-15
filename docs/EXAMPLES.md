@@ -12,12 +12,18 @@ Example row, formatted for readability:
 {
   "observation_id": "obs_SYN_001",
   "symbol": "BTCUSDT",
+  "venue": "synthetic_exchange",
+  "market_type": "synthetic_spot",
+  "quote_currency": "USDT",
   "observed_at": "2026-01-01T00:00:00Z",
   "known_at": "2026-01-01T00:01:00Z",
   "source_ref": "src_SYN_001",
   "source_lineage": {
     "source_ref": "src_SYN_001",
-    "source_type": "synthetic_fixture"
+    "source_type": "synthetic_fixture",
+    "venue": "synthetic_exchange",
+    "market_type": "synthetic_spot",
+    "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT"
   },
   "hypothesis": "synthetic_liquidity_context",
   "confidence_evidence_score": 0.72,
@@ -30,9 +36,13 @@ Example row, formatted for readability:
 The validator treats this as an evidence-quality record:
 
 - `observation_id` identifies the synthetic observation.
+- `venue`, `market_type`, and `quote_currency` identify which synthetic market
+  context the observation belongs to.
 - `observed_at` is when the synthetic observation is said to occur.
 - `known_at` is when the observation is allowed to become usable evidence.
 - `source_ref` and `source_lineage.source_ref` must match.
+- `source_lineage.source_identity_key` prevents the row from implying a single
+  universal price source across venues or market types.
 - `confidence_evidence_score` is bounded from `0` to `1` and describes fixture
   evidence quality only.
 - The three permission flags must remain `false`.
@@ -99,7 +109,10 @@ For example, this mismatch is invalid:
   "source_ref": "src_SYN_001",
   "source_lineage": {
     "source_ref": "src_OTHER",
-    "source_type": "synthetic_fixture"
+    "source_type": "synthetic_fixture",
+    "venue": "synthetic_exchange",
+    "market_type": "synthetic_spot",
+    "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT"
   }
 }
 ```
@@ -108,6 +121,27 @@ Expected validator finding:
 
 ```text
 row 1: source_lineage.source_ref must match source_ref
+```
+
+Source identity is also required. This prevents a coin-domain row from treating
+all exchange prices as one universal truth source. For example, this lineage is
+invalid because it omits `source_identity_key`:
+
+```json
+{
+  "source_lineage": {
+    "source_ref": "src_SYN_001",
+    "source_type": "synthetic_fixture",
+    "venue": "synthetic_exchange",
+    "market_type": "synthetic_spot"
+  }
+}
+```
+
+Expected validator finding:
+
+```text
+row 1: source_lineage missing fields: source_identity_key
 ```
 
 ## Schema Field Validation
@@ -128,7 +162,7 @@ Missing required field example:
 Expected validator finding:
 
 ```text
-row 1: missing fields: confidence_evidence_score, direct_trading_allowed, hypothesis, known_at, order_execution_allowed, private_exchange_api_allowed, source_lineage, source_ref
+row 1: missing fields: confidence_evidence_score, direct_trading_allowed, hypothesis, known_at, market_type, observed_at, order_execution_allowed, private_exchange_api_allowed, quote_currency, source_lineage, source_ref, venue
 ```
 
 Unexpected field example:
@@ -162,12 +196,18 @@ Example failing row:
 {
   "observation_id": "obs_SYN_FAIL_KNOWN_AT",
   "symbol": "BTCUSDT",
+  "venue": "synthetic_exchange",
+  "market_type": "synthetic_spot",
+  "quote_currency": "USDT",
   "observed_at": "2026-01-01T00:10:00Z",
   "known_at": "2026-01-01T00:09:00Z",
   "source_ref": "src_SYN_FAIL_001",
   "source_lineage": {
     "source_ref": "src_SYN_FAIL_001",
-    "source_type": "synthetic_fixture"
+    "source_type": "synthetic_fixture",
+    "venue": "synthetic_exchange",
+    "market_type": "synthetic_spot",
+    "source_identity_key": "synthetic_exchange:synthetic_spot:BTCUSDT:USDT"
   },
   "hypothesis": "synthetic_timing_context",
   "confidence_evidence_score": 0.4,
