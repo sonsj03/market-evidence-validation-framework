@@ -7,6 +7,7 @@ import inspect
 import sys
 import tempfile
 import traceback
+import unittest
 from pathlib import Path
 from types import ModuleType
 from typing import Any
@@ -42,12 +43,14 @@ def call_test(fn: Any) -> None:
 def main() -> int:
     failures: list[str] = []
     total = 0
+    unittest_suite = unittest.TestSuite()
     for path in sorted(TEST_DIR.glob("test_*.py")):
         try:
             module = load_module(path)
         except Exception:
             failures.append(f"{path}: import failed\n{traceback.format_exc()}")
             continue
+        unittest_suite.addTests(unittest.defaultTestLoader.loadTestsFromModule(module))
         for name, fn in sorted(vars(module).items()):
             if not name.startswith("test_") or not callable(fn):
                 continue
@@ -56,6 +59,13 @@ def main() -> int:
                 call_test(fn)
             except Exception:
                 failures.append(f"{path}:{name} failed\n{traceback.format_exc()}")
+    unittest_result = unittest.TestResult()
+    unittest_suite.run(unittest_result)
+    total += unittest_result.testsRun
+    for test, error in unittest_result.errors:
+        failures.append(f"{test} errored\n{error}")
+    for test, failure in unittest_result.failures:
+        failures.append(f"{test} failed\n{failure}")
     if failures:
         print(f"public tests: FAIL ({len(failures)} failed / {total} collected)")
         for failure in failures:
